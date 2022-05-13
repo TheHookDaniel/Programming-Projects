@@ -23,12 +23,20 @@
         </Grid.ColumnDefinitions>
 
         <DockPanel Margin="0 0 0 2" Grid.Row="0" Grid.Column="0">
-            <Button DockPanel.Dock="Right" Grid.Row="0" Grid.Column="0">Load RSS</Button>
-            <TextBox Grid.Row="0" Grid.Column="0"></TextBox>
+            <Button DockPanel.Dock="Right" Grid.Row="0" Grid.Column="0" 
+                    Content="Load Feed"
+                    Command="{Binding LoadRSSCommand}"
+                    CommandParameter="{Binding ElementName=userInputTextBox, Path=Text}">
+            </Button>
+            <TextBox x:Name="userInputTextBox" Grid.Row="0" Grid.Column="0"></TextBox>
         </DockPanel>
 
-        <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Feed}">
-            
+        <ListBox x:Name="RSSFeedListBox" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Feed}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Title}"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
 
         <GridSplitter Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
@@ -37,7 +45,8 @@
                       BorderThickness="5,0"
                       BorderBrush="Transparent"/>
 
-        <TextBlock Grid.Row="1" Grid.Column="2">hello</TextBlock>
-
+        <TextBlock Grid.Row="1" Grid.Column="2" 
+                   Text="{Binding ElementName=RSSFeedListBox, Path=SelectedItem.Content}">
+        </TextBlock>
     </Grid>
 </Window>

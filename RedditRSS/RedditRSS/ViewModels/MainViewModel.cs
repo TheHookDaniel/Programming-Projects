@@ -1,4 +1,5 @@
-﻿using RedditRSS.Models;
+﻿using RedditRSS.Commands;
+using RedditRSS.Models;
 using System.ComponentModel;
 
 namespace RedditRSS.ViewModels
@@ -6,21 +7,15 @@ namespace RedditRSS.ViewModels
     public class MainViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private string _userRssInput;
+        public LoadRSSCommand LoadRSSCommand { get; private set; }
+
         private Feed _feed;
 
         public MainViewModel()
         {
-            // Start up with an empty feed
-            _userRssInput = "";
+            // Start with an empty feed
             _feed = FeedReader.ConstructFeed("");
-
-        }
-
-        public string UserRSSInput
-        {
-            get { return _userRssInput; }
-            set { _userRssInput = value; }
+            LoadRSSCommand = new LoadRSSCommand(UpdateFeed, FeedReader.IsValidRedditRSS);
         }
 
         public Feed Feed
@@ -34,6 +29,11 @@ namespace RedditRSS.ViewModels
                 _feed = value;
                 this.OnPropertyChanged("Feed");
             }
+        }
+
+        public void UpdateFeed(string rssSource)
+        {
+            Feed = FeedReader.ConstructFeed(rssSource);
         }
 
         private void OnPropertyChanged(string propertyName)

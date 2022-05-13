@@ -50,7 +50,7 @@ namespace RedditRSS.Models
 
         public static FeedItem ConstructFeedItem(XElement xmlItem, XNamespace xmlNamespace)
         {
-            if (xmlItem is null || xmlItem.Value != "entry")
+            if (xmlItem is null || xmlItem.Name.LocalName != "entry")
             {
                 return new FeedItem("", "", "", "", "");
             }
@@ -62,6 +62,11 @@ namespace RedditRSS.Models
             string postUrl = xmlItem.Element(xmlNamespace + "link").Attribute("href").Value;
             
             return new FeedItem(title, authorName, category, content, postUrl);
+        }
+
+        public static bool IsValidRedditRSS(string rssSource)
+        {
+            return true;
         }
     }
 }
