@@ -8,7 +8,7 @@ namespace RedditRSS.Models
     {
         public static Feed ConstructFeed(string rssSource)
         {
-            if (string.IsNullOrEmpty(rssSource))
+            if (string.IsNullOrEmpty(rssSource) || !IsValidRedditRSS(rssSource))
             {
                 // return empty feed if no rss source has been passed
                 return new Feed("", "", "");

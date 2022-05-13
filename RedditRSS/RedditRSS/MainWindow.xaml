@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RedditRSS" 
         xmlns:vm="clr-namespace:RedditRSS.ViewModels"
+        xmlns:wbh="clr-namespace:RedditRSS"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1200">
     <Window.DataContext>
@@ -45,8 +45,10 @@
                       BorderThickness="5,0"
                       BorderBrush="Transparent"/>
 
-        <TextBlock Grid.Row="1" Grid.Column="2" 
-                   Text="{Binding ElementName=RSSFeedListBox, Path=SelectedItem.Content}">
-        </TextBlock>
+        <DockPanel Grid.Row="1" Grid.Column="2">
+            <TextBlock DockPanel.Dock="Top" Text="{Binding ElementName=RSSFeedListBox, Path=SelectedItem.Title}" HorizontalAlignment="Center" Margin="0 0 0 15"></TextBlock>
+            <WebBrowser Height="auto"
+                        wbh:WebBrowserHelper.Body="{Binding ElementName=RSSFeedListBox, Path=SelectedItem.Content}"/>
+        </DockPanel>
     </Grid>
 </Window>
