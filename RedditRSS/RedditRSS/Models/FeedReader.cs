@@ -46,11 +46,15 @@ namespace RedditRSS.Models
             }
 
             return rssFeed;
-
         }
 
         public static FeedItem ConstructFeedItem(XElement xmlItem, XNamespace xmlNamespace)
         {
+            if (xmlItem is null || xmlItem.Value != "entry")
+            {
+                return new FeedItem("", "", "", "", "");
+            }
+
             string title = xmlItem.Element(xmlNamespace + "title").Value;
             string authorName = xmlItem.Element(xmlNamespace + "author").Element(xmlNamespace + "name").Value;
             string category = xmlItem.Element(xmlNamespace + "category").Attribute("label").Value;
