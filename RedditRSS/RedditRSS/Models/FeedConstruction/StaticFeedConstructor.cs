@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace RedditRSS.Models
 {
-    public class FeedReader
+    public class StaticFeedConstructor
     {
         public static Feed ConstructFeed(string rssSource)
         {
@@ -15,7 +15,7 @@ namespace RedditRSS.Models
             }
 
             XElement xmlRoot = XElement.Load(rssSource);
-            XNamespace xmlNamespace = "http://www.w3.org/2005/Atom";
+            XNamespace xmlNamespace = xmlRoot.Name.Namespace;
 
             if (xmlRoot is null)
             {
@@ -42,18 +42,20 @@ namespace RedditRSS.Models
 
             foreach (XElement xmlItem in xmlEntryElements)
             {
-                rssFeed.Add(ConstructFeedItem(xmlItem, xmlNamespace));
+                rssFeed.Add(ConstructFeedItem(xmlItem));
             }
 
             return rssFeed;
         }
 
-        public static FeedItem ConstructFeedItem(XElement xmlItem, XNamespace xmlNamespace)
+        public static FeedItem ConstructFeedItem(XElement xmlItem)
         {
             if (xmlItem is null || xmlItem.Name.LocalName != "entry")
             {
                 return new FeedItem("", "", "", "", "");
             }
+
+            XNamespace xmlNamespace  = xmlItem.Name.Namespace;
 
             string title = xmlItem.Element(xmlNamespace + "title").Value;
             string authorName = xmlItem.Element(xmlNamespace + "author").Element(xmlNamespace + "name").Value;
@@ -66,7 +68,7 @@ namespace RedditRSS.Models
 
         public static bool IsValidRedditRSS(string rssSource)
         {
-            return true;
+            return false;
         }
     }
 }

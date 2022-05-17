@@ -10,12 +10,13 @@ namespace RedditRSS.ViewModels
         public LoadRSSCommand LoadRSSCommand { get; private set; }
 
         private Feed _feed;
+        private IFeedConstructor _feedConstrucor;
 
         public MainViewModel()
         {
             // Start with an empty feed
-            _feed = FeedReader.ConstructFeed("");
-            LoadRSSCommand = new LoadRSSCommand(UpdateFeed, FeedReader.IsValidRedditRSS);
+            _feed = StaticFeedConstructor.ConstructFeed("");
+            LoadRSSCommand = new LoadRSSCommand(UpdateFeed, StaticFeedConstructor.IsValidRedditRSS);
         }
 
         public Feed Feed
@@ -33,7 +34,7 @@ namespace RedditRSS.ViewModels
 
         public void UpdateFeed(string rssSource)
         {
-            Feed = FeedReader.ConstructFeed(rssSource);
+            Feed = StaticFeedConstructor.ConstructFeed(rssSource);
         }
 
         private void OnPropertyChanged(string propertyName)
