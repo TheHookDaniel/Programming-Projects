@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:RedditRSS.ViewModels"
         xmlns:wbh="clr-namespace:RedditRSS"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
+        Height="800" Width="1200">
     <Window.DataContext>
         <vm:MainViewModel></vm:MainViewModel>
     </Window.DataContext>
@@ -31,14 +31,24 @@
             <TextBox x:Name="userInputTextBox" Grid.Row="0" Grid.Column="0"></TextBox>
         </DockPanel>
 
-        <ListBox x:Name="RSSFeedListBox" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Feed}">
+        <ListBox x:Name="RSSFeedListBox" Grid.Row="1" Grid.Column="0" 
+                 BorderBrush="Transparent"
+                 Background="#FFE8E8E8"
+                 Style="{StaticResource FeedListBox}"
+                 ItemsSource="{Binding Feed}"
+                 ItemContainerStyle="{StaticResource ListBoxItemStyle}" d:ItemsSource="{d:SampleData ItemCount=5}">
+            
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Path=Title}"></TextBlock>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=Title}" FontSize="15" FontWeight="Medium"></TextBlock>
+                        <TextBlock Text="{Binding Path=Category}" FontSize="10"></TextBlock>
+                        <TextBlock Text="{Binding Path=AuthorName}" FontSize="12"></TextBlock>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
+        
         <GridSplitter Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
                       Margin="-5,0"
                       HorizontalAlignment="Center"
@@ -46,7 +56,9 @@
                       BorderBrush="Transparent"/>
 
         <DockPanel Grid.Row="1" Grid.Column="2">
-            <TextBlock DockPanel.Dock="Top" Text="{Binding ElementName=RSSFeedListBox, Path=SelectedItem.Title}" HorizontalAlignment="Center" Margin="0 0 0 15"></TextBlock>
+            <TextBlock DockPanel.Dock="Top"  HorizontalAlignment="Center" Margin="0 0 0 15" FontWeight="Medium" FontSize="20"
+                       Text="{Binding ElementName=RSSFeedListBox, Path=SelectedItem.Title}">
+            </TextBlock>
             <WebBrowser Height="auto"
                         wbh:WebBrowserHelper.Body="{Binding ElementName=RSSFeedListBox, Path=SelectedItem.Content}"/>
         </DockPanel>

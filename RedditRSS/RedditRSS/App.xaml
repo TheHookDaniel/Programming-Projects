@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:RedditRSS"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Styles/ListBoxStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ListBoxItemStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="./Styles/ScrollBarStyle.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
