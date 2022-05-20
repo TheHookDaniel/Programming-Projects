@@ -1,0 +1,30 @@
+﻿<!-- added to the App.xaml resource dictionary -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+        <!-- inspiration: https://gist.github.com/LGM-AdrianHum/c8cb125bc493c1ccac99b4098c7eeb60 -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="Border"
+                            Padding="4"
+                            Margin="0"
+                            BorderThickness="0"
+                            BorderBrush="Transparent"
+                            SnapsToDevicePixels="true">
+
+                        <Viewbox HorizontalAlignment="Left">
+                            <ContentPresenter></ContentPresenter>
+                        </Viewbox>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="white"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
