@@ -7,23 +7,24 @@ namespace RedditRSS.Commands
     {
 
         private readonly Action<string> _execute;
-        private readonly Func<string, bool> _canExecute;
         public event EventHandler? CanExecuteChanged;
 
-        public LoadRSSCommand(Action<string> execute, Func<string, bool> canExecute)
+        public LoadRSSCommand(Action<string> execute)
         {
             _execute = execute;
-            _canExecute = canExecute;
         }
 
         public bool CanExecute(object? parameter)
         {
-            return _canExecute(parameter as string);
+            return true;
         }
 
         public void Execute(object? parameter)
         {
-            _execute(parameter as string);
+            if (parameter is not null)
+            {
+                _execute((string)parameter);
+            }
         }
     }
 }

@@ -32,5 +32,19 @@ namespace RedditRSS.Models
             get { return _feedUrl; }
             set { _feedUrl = value; }
         }
+
+        public override bool Equals(object? obj)
+        {
+            Feed other = obj as Feed;
+
+            if (other is null)
+            {
+                return false;
+            }
+    
+            return this.Title == other.Title && 
+                    this.Subtitle == other.Subtitle && 
+                    this.FeedUrl == other.FeedUrl;
+        }
     }
 }
