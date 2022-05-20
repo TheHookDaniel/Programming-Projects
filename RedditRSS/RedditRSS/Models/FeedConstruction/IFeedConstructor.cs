@@ -11,6 +11,7 @@ namespace RedditRSS.Models
     {   
         Feed ConstructFeed(string rssSource);
         FeedItem ConstructFeedItem(XElement xmlItem);
+        // Validating the structure of the provided RSS url is correct, not if the subreddit actually exists
         bool IsValidRedditRSS(string rssSource);
     } 
 }

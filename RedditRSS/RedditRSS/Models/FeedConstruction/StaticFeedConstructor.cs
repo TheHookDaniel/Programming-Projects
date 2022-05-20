@@ -8,7 +8,7 @@ namespace RedditRSS.Models
     {
         public static Feed ConstructFeed(string rssSource)
         {
-            if (string.IsNullOrEmpty(rssSource) || !IsValidRedditRSS(rssSource))
+            if (!IsValidRedditRSS(rssSource))
             {
                 // return empty feed if no rss source has been passed
                 return new Feed("", "", "");
@@ -19,7 +19,7 @@ namespace RedditRSS.Models
 
             if (xmlRoot is null)
             {
-                throw new ArgumentException("Invalid RSS source");
+                throw new ArgumentException("Faulty RSS source");
             }
 
             XElement? rssTitle = xmlRoot.Element(xmlNamespace + "title");
@@ -52,23 +52,30 @@ namespace RedditRSS.Models
         {
             if (xmlItem is null || xmlItem.Name.LocalName != "entry")
             {
-                return new FeedItem("", "", "", "", "");
+                return new FeedItem("", "", "", "", "", "");
             }
 
             XNamespace xmlNamespace  = xmlItem.Name.Namespace;
 
-            string title = xmlItem.Element(xmlNamespace + "title").Value;
-            string authorName = xmlItem.Element(xmlNamespace + "author").Element(xmlNamespace + "name").Value;
-            string category = xmlItem.Element(xmlNamespace + "category").Attribute("label").Value;
-            string content = xmlItem.Element(xmlNamespace + "content").Value;
-            string postUrl = xmlItem.Element(xmlNamespace + "link").Attribute("href").Value;
+            XElement? title = xmlItem.Element(xmlNamespace + "title");
+            XElement? authorName = xmlItem.Element(xmlNamespace + "author")?.Element(xmlNamespace + "name");
+            XAttribute? category = xmlItem.Element(xmlNamespace + "category")?.Attribute("label");
+            XElement? content = xmlItem.Element(xmlNamespace + "content");
+            XAttribute? postUrl = xmlItem.Element(xmlNamespace + "link")?.Attribute("href");
+            XElement? postID = xmlItem.Element(xmlNamespace + "id");
+
+            // assume that any missing field is caused by a faulty argument, thus invalidating all the other fields
+            if(title is null || authorName is null || category is null || content is null || postUrl is null)
+            {
+                return new FeedItem("", "", "", "", "", "");
+            }
             
-            return new FeedItem(title, authorName, category, content, postUrl);
+            return new FeedItem(title.Value, authorName.Value, category.Value, content.Value, postUrl.Value, postID.Value);
         }
 
         public static bool IsValidRedditRSS(string rssSource)
         {
-            return false;
+            return !string.IsNullOrEmpty(rssSource);
         }
     }
 }
