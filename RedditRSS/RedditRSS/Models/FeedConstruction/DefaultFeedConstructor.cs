@@ -88,7 +88,7 @@ namespace RedditRSS.Models.FeedConstruction
 
             if (rssSource is not null)
             {
-                string rxPattern = @"^https:\/\/www\.reddit\.com\/r\/(?<subreddit>[a-zA-Z]+)\/?\.rss$";
+                string rxPattern = @"^https:\/\/www\.reddit\.com\/r\/(?<subreddit>[a-zA-Z\+]+)\/?\.rss$";
                 Regex rx = new Regex(rxPattern);
                 MatchCollection matches = rx.Matches(rssSource);
 

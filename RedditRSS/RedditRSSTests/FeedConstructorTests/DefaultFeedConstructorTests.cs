@@ -133,6 +133,18 @@ namespace RedditRSSTests.FeedConstructorTests
         }
 
         [Test]
+        public void IsValidRedditRSSMultiRedditLinkRSS()
+        {
+            Assert.That(fc.IsValidRedditRSS("https://www.reddit.com/r/news+funny/.rss"), Is.EqualTo(true));
+        }
+
+        [Test]
+        public void IsValidRedditRSSMultiRedditLinkRSSNoSlash()
+        {
+            Assert.That(fc.IsValidRedditRSS("https://www.reddit.com/r/news+funny.rss"), Is.EqualTo(true));
+        }
+
+        [Test]
         public void IsValidRedditRSSRedditLinkRSSExtraSymbolsAfter()
         {
             Assert.That(fc.IsValidRedditRSS("https://www.reddit.com/r/all/.rssQQQ"), Is.EqualTo(false));
