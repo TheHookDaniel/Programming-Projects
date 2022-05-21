@@ -1,6 +1,6 @@
 # Reddit RSS Reader
 
-A C# desktop application made for reading Reddit RSS feeds . 
+A C# desktop application made for reading Reddit RSS feeds. 
 
 Built with WPF in Visual Studio and tested with NUnit.
 
@@ -22,7 +22,7 @@ More info about Reddit RSS can be found [here](https://www.reddit.com/wiki/rss).
 
 ## 2. Load the feed
 
-Load the feed after typing it's URL into the textbox. It is also possible to add an RSS feed to your favourites which enables you to pick it from the dropdown menu later on. 
+Typing the feed URL into the textbox and pressing `Load Feed` will display the feed items in a list. It is also possible to add an RSS feed to your favourites which enables you to pick it from the dropdown menu later on. 
 
 ![screen grab of loading](/Images/loadRSS.png)
 
