@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:RedditRSS.ViewModels"
         xmlns:wbh="clr-namespace:RedditRSS"
+        Title="{Binding Path=Feed.Title}"
         mc:Ignorable="d"
         Height="800" Width="1200">
     <Window.DataContext>
@@ -28,7 +29,8 @@
                     Command="{Binding LoadRSSCommand}"
                     CommandParameter="{Binding ElementName=userInputTextBox, Path=Text}">
             </Button>
-            <TextBox x:Name="userInputTextBox" Grid.Row="0" Grid.Column="0"></TextBox>
+            <TextBox x:Name="userInputTextBox" Grid.Row="0" Grid.Column="0"
+                     Text="https://www.reddit.com/r/all/.rss"></TextBox>
         </DockPanel>
 
         <ListBox x:Name="RSSFeedListBox" Grid.Row="1" Grid.Column="0" 
@@ -36,7 +38,7 @@
                  Background="#FFE8E8E8"
                  Style="{StaticResource FeedListBox}"
                  ItemsSource="{Binding Feed}"
-                 ItemContainerStyle="{StaticResource ListBoxItemStyle}" d:ItemsSource="{d:SampleData ItemCount=5}">
+                 ItemContainerStyle="{StaticResource ListBoxItemStyle}" d:ItemsSource="{d:SampleData ItemCount=10}">
             
             <ListBox.ItemTemplate>
                 <DataTemplate>

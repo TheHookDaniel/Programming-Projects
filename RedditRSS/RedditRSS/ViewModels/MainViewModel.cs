@@ -36,7 +36,11 @@ namespace RedditRSS.ViewModels
 
         public void UpdateFeed(string rssSource)
         {
-            Feed = _feedConstructor.ConstructFeed(rssSource);
+            Feed returnFeed = _feedConstructor.ConstructFeed(rssSource);
+            if (!returnFeed.Equals(new Feed("", "", "")))
+            {
+                Feed = _feedConstructor.ConstructFeed(rssSource);
+            }
         }
 
         private void OnPropertyChanged(string propertyName)
