@@ -29,8 +29,27 @@
                     Command="{Binding LoadRSSCommand}"
                     CommandParameter="{Binding ElementName=userInputTextBox, Path=Text}">
             </Button>
-            <TextBox x:Name="userInputTextBox" Grid.Row="0" Grid.Column="0"
-                     Text="https://www.reddit.com/r/all/.rss"></TextBox>
+            <Button DockPanel.Dock="Right" Grid.Row="0" Grid.Column="0" 
+                    Content="+"
+                    VerticalContentAlignment="Center"
+                    FontSize="15"
+                    Width="20"
+                    ToolTip="Save RSS to favorites"
+                    Command="{Binding AddFavouriteRSSCommand}"
+                    CommandParameter="{Binding ElementName=userInputTextBox, Path=Text}">
+            </Button>
+            <ComboBox x:Name="userInputTextBox" Grid.Row="0" Grid.Column="0"
+                     Text="https://www.reddit.com/r/news/.rss"
+                      IsEditable="True"
+                      ItemsSource="{Binding Favourites}">
+                
+                <ComboBox.InputBindings>
+                    <KeyBinding Command="{Binding LoadRSSCommand}" 
+                                CommandParameter="{Binding ElementName=userInputTextBox, Path=Text}"
+                                Key="Return">
+                    </KeyBinding>
+                </ComboBox.InputBindings>
+            </ComboBox>
         </DockPanel>
 
         <ListBox x:Name="RSSFeedListBox" Grid.Row="1" Grid.Column="0" 
