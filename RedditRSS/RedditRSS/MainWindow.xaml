@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:RedditRSS.ViewModels"
         xmlns:wbh="clr-namespace:RedditRSS"
-        Title="{Binding Path=Feed.Title}"
         mc:Ignorable="d"
+        Title="{Binding Path=Feed.Title}"
         Height="800" Width="1200">
     <Window.DataContext>
         <vm:MainViewModel></vm:MainViewModel>
@@ -29,40 +29,57 @@
                     Command="{Binding LoadRSSCommand}"
                     CommandParameter="{Binding ElementName=userInputTextBox, Path=Text}">
             </Button>
-            <TextBox x:Name="userInputTextBox" Grid.Row="0" Grid.Column="0"
-                     Text="https://www.reddit.com/r/all/.rss"></TextBox>
+            <Button DockPanel.Dock="Right" Grid.Row="0" Grid.Column="0" 
+                    Content="+"
+                    VerticalContentAlignment="Center"
+                    FontSize="15"
+                    Width="20"
+                    ToolTip="Save RSS to favorites"
+                    Command="{Binding AddFavouriteRSSCommand}"
+                    CommandParameter="{Binding ElementName=userInputTextBox, Path=Text}">
+            </Button>
+            <ComboBox x:Name="userInputTextBox" Grid.Row="0" Grid.Column="0"
+                     Text="https://www.reddit.com/r/news/.rss"
+                      IsEditable="True"
+                      ItemsSource="{Binding Favourites}">
+                
+                <ComboBox.InputBindings>
+                    <KeyBinding Command="{Binding LoadRSSCommand}" 
+                                CommandParameter="{Binding ElementName=userInputTextBox, Path=Text}"
+                                Key="Return">
+                    </KeyBinding>
+                </ComboBox.InputBindings>
+            </ComboBox>
         </DockPanel>
 
         <ListBox x:Name="RSSFeedListBox" Grid.Row="1" Grid.Column="0" 
-                 BorderBrush="Transparent"
-                 Background="#FFE8E8E8"
                  Style="{StaticResource FeedListBox}"
                  ItemsSource="{Binding Feed}"
-                 ItemContainerStyle="{StaticResource ListBoxItemStyle}" d:ItemsSource="{d:SampleData ItemCount=10}">
+                 ItemContainerStyle="{StaticResource ListBoxItemStyle}" d:ItemsSource="{d:SampleData ItemCount=20}">
             
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding Path=Title}" FontSize="15" FontWeight="Medium"></TextBlock>
-                        <TextBlock Text="{Binding Path=Category}" FontSize="10"></TextBlock>
+                        <TextBlock Text="{Binding Path=Title}" FontSize="15" FontWeight="Medium" Width="{Binding ElementName=RSSFeedListBox, Path=ActualWidth}"></TextBlock>
                         <TextBlock Text="{Binding Path=AuthorName}" FontSize="12"></TextBlock>
+                        <TextBlock Text="{Binding Path=Category}" FontSize="10" ></TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
         
-        <GridSplitter Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+        <GridSplitter x:Name="gridsplitter"
+                      Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
                       Margin="-5,0"
                       HorizontalAlignment="Center"
-                      BorderThickness="5,0"
+                      BorderThickness="15,0"
                       BorderBrush="Transparent"/>
 
         <DockPanel Grid.Row="1" Grid.Column="2">
-            <TextBlock DockPanel.Dock="Top"  HorizontalAlignment="Center" Margin="0 0 0 15" FontWeight="Medium" FontSize="20"
+            <TextBlock DockPanel.Dock="Top"  HorizontalAlignment="Center" Margin="0 0 0 15" FontWeight="Medium" FontSize="20" TextWrapping="Wrap" FontFamily="Arial"
                        Text="{Binding ElementName=RSSFeedListBox, Path=SelectedItem.Title}">
             </TextBlock>
-            <WebBrowser Height="auto"
-                        wbh:WebBrowserHelper.Body="{Binding ElementName=RSSFeedListBox, Path=SelectedItem.Content}"/>
+            <WebBrowser wbh:WebBrowserHelper.Body="{Binding ElementName=RSSFeedListBox, Path=SelectedItem.Content}"></WebBrowser>
         </DockPanel>
     </Grid>
 </Window>
