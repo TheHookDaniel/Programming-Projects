@@ -21,29 +21,30 @@ namespace RedditRSS.Models.FeedConstruction
                 return new Feed("", "", "");
             }
 
-            XElement xmlRoot = XElement.Load(rssSource);
-            XNamespace xmlNamespace = xmlRoot.Name.Namespace;
-
-            if (xmlRoot is null)
+            XElement xmlRoot;
+            try
             {
-                throw new ArgumentException("Faulty RSS source");
+                xmlRoot = XElement.Load(rssSource);
+            }
+            catch (Exception)
+            {
+                return new Feed("", "", "");
             }
 
+            XNamespace xmlNamespace = xmlRoot.Name.Namespace;
             XElement? rssTitle = xmlRoot.Element(xmlNamespace + "title");
             XElement? rssSubTitle = xmlRoot.Element(xmlNamespace + "subtitle");
 
-            if (rssTitle is null)
+            Feed rssFeed;
+            try
             {
-                throw new ArgumentException("title not found");
+                rssFeed = new Feed(rssTitle.Value, rssSubTitle.Value, rssSource);
             }
-
-            if (rssSubTitle is null)
+            catch (NullReferenceException)
             {
-                throw new ArgumentException("subtitle not found");
-
+                // some subreddits don't have a 'subtitle' and a multi-subreddit doesn't have a subtitle
+                rssFeed = new Feed(rssTitle.Value, "", rssSource);
             }
-
-            Feed rssFeed = new Feed(rssTitle.Value, rssSubTitle.Value, rssSource);
 
             IEnumerable<XElement> xmlEntryElements = xmlRoot.Elements(xmlNamespace + "entry");
 
@@ -87,7 +88,7 @@ namespace RedditRSS.Models.FeedConstruction
 
             if (rssSource is not null)
             {
-                string rxPattern = @"^https:\/\/www\.reddit\.com\/r\/(?<subreddit>[a-zA-Z]+)\/\.rss$";
+                string rxPattern = @"^https:\/\/www\.reddit\.com\/r\/(?<subreddit>[a-zA-Z]+)\/?\.rss$";
                 Regex rx = new Regex(rxPattern);
                 MatchCollection matches = rx.Matches(rssSource);
 

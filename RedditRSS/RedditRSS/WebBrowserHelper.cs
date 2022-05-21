@@ -28,7 +28,16 @@ namespace RedditRSS
             WebBrowser WebView = (WebBrowser)d;
             if (WebView is not null)
             {
-                WebView.NavigateToString((string)e.NewValue);
+                if ((string)e.NewValue is not null)
+                {
+                    WebView.NavigateToString((string)e.NewValue);
+
+                }
+                else
+                {
+                    WebView.NavigateToString("<p></p>");
+
+                }
             }
         }
     }

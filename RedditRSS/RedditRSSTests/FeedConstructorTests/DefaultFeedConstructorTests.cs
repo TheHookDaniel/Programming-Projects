@@ -127,6 +127,12 @@ namespace RedditRSSTests.FeedConstructorTests
         }
 
         [Test]
+        public void IsValidRedditRSSRedditLinkRSSNoSlash()
+        {
+            Assert.That(fc.IsValidRedditRSS("https://www.reddit.com/r/all.rss"), Is.EqualTo(true));
+        }
+
+        [Test]
         public void IsValidRedditRSSRedditLinkRSSExtraSymbolsAfter()
         {
             Assert.That(fc.IsValidRedditRSS("https://www.reddit.com/r/all/.rssQQQ"), Is.EqualTo(false));
